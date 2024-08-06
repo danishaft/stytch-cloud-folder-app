@@ -2,7 +2,7 @@ const express = require('express')
 const cors = require('cors')
 const bodyParser = require('body-parser')
 const cookieParser = require('cookie-parser')
-const passport = require('passport');
+const passport = require('passport')
 require('dotenv').config()
 
 const app = express()
@@ -17,13 +17,11 @@ app.use(express.json())
 const StytchStrategy = require('./utils/passport.config')
 
 // Passport configuration
-passport.use(new StytchStrategy());
-app.use(passport.initialize());
-
+passport.use(new StytchStrategy())
+app.use(passport.initialize())
 
 const usersRoute = require('./routes/users')
 const foldersRoute = require('./routes/folders')
-
 
 // Routes
 app.use('/api/users', usersRoute)
@@ -34,4 +32,3 @@ app.listen(port, (err) => {
     if (err) throw err
     console.log(`Server is running on port ${port}`)
 })
-
