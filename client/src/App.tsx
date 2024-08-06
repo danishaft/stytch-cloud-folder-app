@@ -1,15 +1,9 @@
 
 
 import { Route, Routes } from "react-router-dom"
-import { ProtectedRoutes } from "./components/ProtectedRoutes"
-import { LoginOrSignup } from "./pages/LoginOrSignup"
-import { NotFound } from "./pages/NotFound";
-import { Layout } from "./components/Layout";
-import { Authenticate } from "./pages/Authenticate";
 import { ContextProvider } from "./context/ContextProvider";
-import { Modal } from "./components/Modal";
-import { Register } from "./pages/Register";
-import { Home } from "./pages/Home";
+import { Authenticate, Home, LoginOrSignup, NotFound, Register } from "./pages";
+import { Layout, Modal, ProtectedRoutes } from "./components";
 
 // Route constants
 const ROUTES = {
