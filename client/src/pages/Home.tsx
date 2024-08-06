@@ -1,8 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useAppContext } from '../context/ContextProvider';
 import { FcOpenedFolder } from "react-icons/fc";
-import { Spinner } from '../components/Spinner';
-import { FolderCard } from '../components/FolderCard';
+import { FolderCard, Spinner } from '../components';
 
 export const Home = () => {
     const {folders, updateFolders, openModal} = useAppContext();
