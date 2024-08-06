@@ -12,7 +12,6 @@ const addMember = async (req, res) => {
         }
         res.status(200).json({message: 'success', isNewUser})
     }catch(error){
-        console.error('Error in addMember controller:', error)
         res.status(error.status_code || 500).json({
             error: error.error_type || 'Invalid or expired session or orgId',
             message:
@@ -21,14 +20,14 @@ const addMember = async (req, res) => {
     }
 }
 
-const updateMember = async (req, res) => {
+const updateMemberAndOrg = async (req, res) => {
     try{
         const sessionToken = req.cookies.stytch_session;
         const { member } = req.user;
-        console.log(member)
         const name = `${req.body.firstName} ${req.body.lastName}`
+        const orgName = req.body.orgName
 
-        const response = await stytchClient.organizations.members.update(
+        const memberResponse = await stytchClient.organizations.members.update(
             {
                 organization_id: member?.organization_id,
                 member_id: member?.member_id,
@@ -40,12 +39,31 @@ const updateMember = async (req, res) => {
                 },
             },
         )
-        const updatedMember = await updateUser(member?.member_id, response.member?.name);
+        const updatedMember = await updateUser(member?.member_id, memberResponse.member?.name);
+
+        const orgResponse = await stytchClient.organizations.update(
+            {
+                organization_id: member?.organization_id,
+                organization_name: orgName,
+            },
+            {
+                authorization: {
+                    session_token: sessionToken
+                }
+            }
+        )
+        const {organization_id, organization_name, organization_logo_url, organization_slug} = orgResponse.organization
+        const updatedOrg = {
+            organization_id,
+            organization_name,
+            organization_slug,
+            organization_logo_url
+        }
         res.status(200).json({
-            user: updatedMember
+            user: updatedMember,
+            organization: updatedOrg
         })
     }catch(error){
-        console.error('Error in updateMember controller:', error)
         res.status(error.status_code || 500).json({
             error: error.error_type || 'Invalid or expired session or orgId',
             message:
@@ -57,7 +75,6 @@ const updateMember = async (req, res) => {
 const getMember = async (req, res) => {
     try{
         const { member } = req.user;
-        console.log(member)
         const response = await stytchClient.organizations.members.get(
             {
                 organization_id: member?.organization_id,
@@ -65,10 +82,8 @@ const getMember = async (req, res) => {
             }
         )
         const user = await updateUser(member?.member_id, response?.member.name)
-        console.log(user)
         res.status(200).json({user})
     }catch(error){
-        console.error('Error in getMember controller:', error)
         res.status(error.status_code || 500).json({
             error: error.error_type || 'Invalid or expired session or orgId',
             message:
@@ -78,6 +93,6 @@ const getMember = async (req, res) => {
 }
 module.exports = {
     addMember,
-    updateMember,
+    updateMemberAndOrg,
     getMember
 }

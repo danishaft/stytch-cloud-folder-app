@@ -1,13 +1,14 @@
 import { RxAvatar } from "react-icons/rx";
 import { FaBell, FaSearch } from 'react-icons/fa';
 import { MdLogout } from "react-icons/md";
-import { useStytchMember, useStytchB2BClient} from '@stytch/react/b2b'
+import { useStytchB2BClient} from '@stytch/react/b2b'
 import { useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useAppContext } from "../context/ContextProvider";
 
 export const Navbar = () => {
+    const {user} = useAppContext();
     const stytch = useStytchB2BClient();
-    const { member} = useStytchMember();
     const navigate = useNavigate();
     const logOut = useCallback(async () => {
         await stytch.session.revoke();
@@ -17,7 +18,7 @@ export const Navbar = () => {
     <nav className="flex justify-between items-center h-20 py-2 px-8 bg-[#fcfcfc] shadow-lg">
       <div className="mr-6">
         <h1 className="text-2xl font-bold text-[#051F61] mb-1">My Cloud</h1>
-        <p className="text-xs text-[#757897] font-semibold capitalize">Welcome, {member?.name}👋</p>
+        <p className="text-xs text-[#757897] font-semibold capitalize">Welcome, {user?.name}👋</p>
       </div>
       <div className="flex-grow mx-4">
         <div className="relative">

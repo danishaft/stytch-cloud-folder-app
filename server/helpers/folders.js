@@ -11,7 +11,6 @@ const createFolder = async (name, member_id) => {
         })
         return folder;
     }catch(error){
-        console.error(error.message)
         throw new Error('Could not create folder', error.message);
     }finally{
         await prisma.$disconnect()
@@ -25,7 +24,6 @@ const fetchFolder = async (folder_id) => {
         })
         return folder;
     }catch(error){
-        console.error(error.message)
         throw new Error('Could not get folder', error.message);
     }finally{
         await prisma.$disconnect()
@@ -39,7 +37,6 @@ const fetchFolders = async (member_id) => {
         })
         return folders;
     }catch(error){
-        console.error(error.message)
         throw new Error('Could not fetch folder', error.message);
     }finally{
         await prisma.$disconnect()

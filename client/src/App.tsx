@@ -1,22 +1,22 @@
 
 
 import { Route, Routes } from "react-router-dom"
-import { Home } from "./components/Home"
 import { ProtectedRoutes } from "./components/ProtectedRoutes"
-import { LoginOrSignup } from "./components/LoginOrSignup"
-import { NotFound } from "./components/NotFound";
+import { LoginOrSignup } from "./pages/LoginOrSignup"
+import { NotFound } from "./pages/NotFound";
 import { Layout } from "./components/Layout";
-import { Authenticate } from "./components/Authenticate";
-import {Profile} from './components/Profile'
+import { Authenticate } from "./pages/Authenticate";
 import { ContextProvider } from "./context/ContextProvider";
 import { Modal } from "./components/Modal";
+import { Register } from "./pages/Register";
+import { Home } from "./pages/Home";
 
 // Route constants
 const ROUTES = {
   HOME: '/',
   LOGIN: '/login',
   AUTHENTICATE: '/authenticate',
-  PROFILE: '/profile/update'
+  REGISTER: '/register'
 };
 
 function App() {
@@ -28,7 +28,7 @@ function App() {
           <Route path={ROUTES.LOGIN} element={<LoginOrSignup/>}/>
           <Route path={ROUTES.AUTHENTICATE} element={<Authenticate/>}/>
           <Route element={<ProtectedRoutes/>}>
-            <Route path={ROUTES.PROFILE} element={<Profile/>}/>
+            <Route path={ROUTES.REGISTER} element={<Register/>}/>
             <Route element={<Layout/>}>
               <Route path={ROUTES.HOME} element={<Home/>}/>
             </Route>

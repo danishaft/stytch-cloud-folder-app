@@ -37,10 +37,12 @@ export const Authenticate = () => {
                                 res.json()
                             )).then(result => {
                                 if(result.isNewUser){
-                                    navigate("/profile/update")
+                                    navigate("/register")
                                 }else {
                                     navigate("/")
                                 }
+                            }).catch(error => {
+                                console.error(error);
                             })
                         }
                     }

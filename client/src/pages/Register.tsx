@@ -1,12 +1,15 @@
 import { useForm, SubmitHandler } from "react-hook-form"
 import { useNavigate } from "react-router-dom";
+import { useAppContext } from "../context/ContextProvider";
 
 interface FormInputs {
   firstName: string;
   lastName: string;
+  orgName: string;
 }
 
-export const Profile = () => {
+export const Register = () => {
+  const {updateUser} = useAppContext();
   const navigate = useNavigate();
   const { register, handleSubmit, formState: { errors }, reset } = useForm<FormInputs>();
 
@@ -26,7 +29,7 @@ export const Profile = () => {
         throw new Error('Failed to update profile');
       }
       const result = await response.json();
-      console.log(result.user);
+      updateUser(result.user);
       navigate("/")
     } catch (error) {
       console.error((error as Error).message);
@@ -37,7 +40,7 @@ export const Profile = () => {
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
       <div className="bg-white p-8 rounded-md shadow-lg w-full max-w-md">
-        <h2 className="text-2xl font-bold mb-8 text-center text-gray-800">Update Profile</h2>
+        <h2 className="text-2xl font-bold mb-8 text-center text-gray-800">Complete Registration</h2>
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
           <div>
             <label htmlFor="firstName" className="block text-sm font-medium text-gray-700">
@@ -67,6 +70,21 @@ export const Profile = () => {
             />
             {errors.lastName && (
               <p className="mt-2 text-sm text-red-600">{errors.lastName.message}</p>
+            )}
+          </div>
+          <div>
+            <label htmlFor="orgName" className="block text-sm font-medium text-gray-700">
+              Organization Name
+            </label>
+            <input
+              id="orgName"
+              {...register('orgName', { required: 'Organization name is required' })}
+              className={`mt-1 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline sm:text-sm ${
+                errors.orgName ? 'border-red-500' : ''
+              }`}
+            />
+            {errors.orgName && (
+              <p className="mt-2 text-sm text-red-600">{errors.orgName.message}</p>
             )}
           </div>
           <button

@@ -8,7 +8,7 @@ const createUser = async (name, email, member_id) => {
             data: {
                 id: member_id,
                 name,
-                email
+                email,
             }
         })
         return user;
@@ -22,9 +22,7 @@ const createUser = async (name, email, member_id) => {
 const getUser = async (member_id) => {
     try {
         const user = await prisma.user.findUnique({
-            where: {
-                id: member_id
-            }
+            where: {id: member_id}
         })
         return user;
     }catch(error){
